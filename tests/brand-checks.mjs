@@ -19,12 +19,12 @@ const png = async (path, width, height) => {
 const html = await (await get('/')).text();
 check(!html.includes('href="data:,"'), 'no empty favicon');
 check(html.includes('branding/site.webmanifest') && html.includes('branding/apple-touch-icon.png'), 'home screen links');
-check(html.includes('og:image') && html.includes('twitter:image') && html.includes('https://kyarkwat.vercel.app/branding/social-card-tiger.png'), 'absolute sharing metadata');
+check(html.includes('og:image') && html.includes('twitter:image') && html.includes('https://kyarkwat.vercel.app/branding/social-card-tiger.jpg'), 'absolute sharing metadata');
 check(html.includes('rel="canonical"') && html.includes('name="description"'), 'canonical and description');
-check(html.includes('property="og:image:type" content="image/png"') && html.includes('name="application-name" content="KyarKwat"'), 'preview MIME type and app identity');
+check(html.includes('property="og:image:type" content="image/jpeg"') && html.includes('name="application-name" content="KyarKwat"'), 'preview MIME type and app identity');
 for (const agent of ['facebookexternalhit/1.1', 'TelegramBot (like TwitterBot)']) {
   const response = await fetch(base + '/', { headers: { 'User-Agent': agent } });
-  check(response.ok && (await response.text()).includes('https://kyarkwat.vercel.app/branding/social-card-tiger.png'), `${agent} receives static preview metadata`);
+  check(response.ok && (await response.text()).includes('https://kyarkwat.vercel.app/branding/social-card-tiger.jpg'), `${agent} receives static preview metadata`);
 }
 const manifest = await (await get('/branding/site.webmanifest')).json();
 check(manifest.start_url === '/' && manifest.name.includes('KyarKwat'), 'manifest identity');
@@ -40,6 +40,10 @@ await png('/branding/logo-light.png', 1024, 1024);
 await png('/branding/social-card.png', 1200, 630);
 await png('/branding/social-card-tiger.png', 1200, 630);
 check((await get('/branding/social-card-tiger.png')).headers.get('content-type')?.includes('image/png'), 'preview image MIME type');
+const jpeg = await get('/branding/social-card-tiger.jpg');
+check(jpeg.headers.get('content-type')?.includes('image/jpeg'), 'JPEG preview MIME type');
+const jpegBytes = Buffer.from(await jpeg.arrayBuffer());
+check(jpegBytes.readUInt16BE(0) === 0xffd8 && jpegBytes.readUInt16BE(jpegBytes.length - 2) === 0xffd9, 'valid JPEG preview export');
 const ico = Buffer.from(await (await get('/branding/favicon.ico')).arrayBuffer());
 check(ico.equals(Buffer.from(await (await get('/favicon.ico')).arrayBuffer())), 'root favicon matches generated icon');
 check(ico.readUInt16LE(2) === 1 && ico.readUInt16LE(4) === 3, 'three-resolution ICO');
@@ -52,6 +56,8 @@ for (const name of ['logo-dark.svg', 'logo-light.svg', 'favicon.svg']) {
 const browser = await Browser.launch();
 try {
   const page = await browser.newPage();
+  await page.goto(base + '/branding/social-card-tiger.jpg');
+  check(await page.eval(async () => { const image = document.querySelector('img'); await image.decode(); return image.naturalWidth === 1200 && image.naturalHeight === 630; }), 'JPEG preview decodes at 1200 by 630');
   await page.send('Network.enable');
   await page.send('Network.setBlockedURLs', { urls: ['*/_framework/blazor.webassembly.js'] });
   await page.goto(base);

@@ -62,6 +62,7 @@ const html = `<!doctype html><meta charset="utf-8"><style>
   ctx.fillStyle='#b4b4b4';ctx.font='400 28px Myanmar';ctx.fillText('ကျားနိုင် / ကျားကုန်',300,424);
   output['social-card.png']=social.toDataURL('image/png').split(',')[1];
   output['social-card-tiger.png']=output['social-card.png'];
+  output['social-card-tiger.jpg']=social.toDataURL('image/jpeg',.92).split(',')[1];
   const preview=canvas(960,480),p=preview.getContext('2d');
   p.fillStyle='#fff';p.fillRect(0,0,480,480);p.fillStyle='#000';p.fillRect(480,0,480,480);
   p.drawImage(ink,112,64,256,256);p.drawImage(mark,592,64,256,256);
@@ -94,8 +95,13 @@ dimensions.set('social-card-tiger.png', [1200, 630]);
 dimensions.set('brand-preview.png', [960, 480]);
 for (const [name, data] of Object.entries(output)) {
   const bytes = Buffer.from(data, 'base64');
-  assert.equal(bytes.subarray(1, 4).toString(), 'PNG');
-  assert.deepEqual([bytes.readUInt32BE(16), bytes.readUInt32BE(20)], dimensions.get(name), name);
+  if (name.endsWith('.jpg')) {
+    assert.equal(bytes.readUInt16BE(0), 0xffd8, 'JPEG start');
+    assert.equal(bytes.readUInt16BE(bytes.length - 2), 0xffd9, 'JPEG end');
+  } else {
+    assert.equal(bytes.subarray(1, 4).toString(), 'PNG');
+    assert.deepEqual([bytes.readUInt32BE(16), bytes.readUInt32BE(20)], dimensions.get(name), name);
+  }
   writeFileSync(join(name === 'brand-preview.png' ? docs : brand, name), bytes);
 }
 const entries = [16, 32, 48].map(size => readFileSync(join(brand, `favicon-${size}.png`)));
@@ -112,4 +118,4 @@ entries.forEach((png, index) => {
 const favicon = Buffer.concat([ico, ...entries]);
 writeFileSync(join(brand, 'favicon.ico'), favicon);
 writeFileSync(join(brand, '../favicon.ico'), favicon);
-console.log(`Generated ${Object.keys(output).length} checked PNGs, SVG variants and multi-size ICO from logo-master.svg.`);
+console.log('Generated 12 checked PNGs, JPEG social preview, SVG variants and multi-size ICO from logo-master.svg.');
