@@ -40,3 +40,16 @@ The script renders the master in a fresh, isolated headless browser profile unde
 `docs/images/mark.svg` remains an adaptive compatibility export for existing public README image URLs. `docs/images/brand-preview.png` shows both surface variants. Neither is an independent design source.
 
 The logo and geometry are authored directly in SVG because this repository already uses vector branding and requires deterministic small icons. No AI raster image, stock image, third-party logo, or additional typeface was used. Existing rules references and font attribution remain in the project README and font-license files.
+
+## Verification and release — 2026-11-09
+
+- Generator checks passed: 11 PNGs with expected dimensions, true transparent master corners/K cutout, SVG variants and 16/32/48 multi-resolution ICO.
+- **60 brand assertions** passed locally and against https://kyarkwat.vercel.app: public asset requests, metadata, manifest, all icon sizes, identical SVG geometry, loading/header logos, 360/390px layouts, light/dark favicon rendering and maskable safe area.
+- **100 C# assertions**, **1,100 game browser assertions/eight full games**, and **342 touch assertions/two full games** passed against the branded local build.
+- Style lint and desktop/tablet/mobile inspection passed with zero findings, retaining only the existing allowance for a native modal intentionally covering the inert background heading.
+- Published output is cleaned before each build; only the current game-assembly fingerprint is deployed. Old inline four-square logos and the empty favicon were replaced. The public README compatibility export contains the new geometry.
+- Production deployment: `dpl_HingzbXpbcDqM8oSGRapp3LNqEmX` (`READY`). The public page and social image return HTTP 200 without authentication.
+
+Desktop/mobile screenshots are in `docs/images/`. Generated check evidence remains under ignored `.taste-skill/branding/` and `.taste-skill/brand-layout/`.
+
+Not checked on physical iOS/Android devices or by installing home-screen icons. Actual social-network cache/preview refresh is not tested. The manifest supplies icon/display metadata; no offline service worker or new app theme was added.

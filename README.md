@@ -1,4 +1,4 @@
-<p><a href="https://kyarkwat.vercel.app/"><img src="docs/images/mark.svg" width="72" height="72" alt="Kyar Kwat logo" /></a></p>
+<p><a href="https://kyarkwat.vercel.app/"><img src="BlazorWasm.KyarKwat/wwwroot/branding/icon-192.png" width="72" height="72" alt="KyarKwat Jump K counter logo" /></a></p>
 
 # Kyar Kwat — မြန်မာ့ရိုးရာ ကျားကွက်
 
@@ -98,6 +98,16 @@ C# Assertions **၁၀၀**၊ Browser Assertions **၁,၁၀၀** နဲ့ To
 ## ကိုယ်တိုင် ပြန်ရေးကြည့်ချင်ရင်
 
 Board State → Legal Routes → Apply Turn → Result → Computer Search ဆိုတဲ့ Flow ကို အရင်ခွဲလေ့လာပါ။ UI မရေးခင် Compulsory Capture၊ Maximum Capture၊ ကင်း၊ ကျားကုန်အနိုင်အရှုံးနဲ့ Draw ကို Board Fixture တွေနဲ့ စစ်ကြည့်ပါ။ ကိုယ်နှစ်သက်တဲ့ Language / Platform နဲ့ ပြန်ရေးကြည့်နိုင်ပါတယ်။
+
+## Logo နဲ့ Brand Assets
+
+Logo အသစ်က ကျားအဝိုင်းထဲမှာ **K ပုံစံကို Transparent Cutout** အဖြစ် ရေးထားတဲ့ **Jump K counter** ပါ။ လက်ရှိ App ရဲ့ Mint Green / Black Palette နဲ့ လိုက်ဖက်ပြီး Light Surface အတွက် အစိမ်းရင့် Variant ပါရှိပါတယ်။
+
+![Jump K counter on light and dark surfaces](docs/images/brand-preview.png)
+
+[Transparent SVG Master](BlazorWasm.KyarKwat/wwwroot/branding/logo-master.svg) · [Transparent PNG](BlazorWasm.KyarKwat/wwwroot/branding/logo-dark.png) · [Assets နဲ့ အသုံးပြုပုံ](docs/BRANDING.md)
+
+Favicon 16/32/48၊ Apple Icon 180၊ App Icons 192/512၊ Maskable Icon နဲ့ Social Card 1200×630 တို့ကို Master တစ်ခုတည်းကနေ ထုတ်ထားပါတယ်။ Node 22+ နဲ့ Chrome/Edge ရှိရင် `node scripts/build-brand.mjs` နဲ့ ပြန်ထုတ်နိုင်ပါတယ်။ App က Dark Theme ဖြစ်ပြီး Logo Variant တွေကို Light/Dark Surface နှစ်မျိုးလုံးမှာ စစ်ထားပါတယ်။
 
 ## ပံ့ပိုးသူများနှင့် Credits
 

@@ -56,7 +56,7 @@ Prepare the tested static site using PowerShell 7:
 ./scripts/Prepare-Vercel.ps1
 ```
 
-This publishes the app and produces Vercel Build Output API v3 under `.vercel/output/`, with all static assets in `static/`. It verifies each copied file's hash and the Blazor bootstrap file. Only generated `.vercel/output/` is replaced; the project link in `.vercel/project.json` is preserved. `.vercel/` is ignored by source control.
+This publishes the app and produces Vercel Build Output API v3 under `.vercel/output/`, with all static assets in `static/`. It verifies each copied file's hash and the Blazor bootstrap file. Generated `artifacts/publish/` is cleaned before publishing so obsolete fingerprints are not uploaded, and `.vercel/output/` is replaced; the project link in `.vercel/project.json` is preserved. `.vercel/` is ignored by source control.
 
 After authenticating and explicitly linking the intended Vercel account/team/project, verify the link and deploy the prebuilt site:
 
@@ -70,8 +70,8 @@ No .NET build is required on Vercel.
 Live production site: **https://kyarkwat.vercel.app** (deployed 2026-11-09).
 
 - Team/project: `sann-lynn-htuns-projects/kyarkwat`.
-- Deployment: `dpl_6GqDBt4ZafrFxQn64Qs3Vtg8Xms4`, state `READY`, production.
-- Inspector: https://vercel.com/sann-lynn-htuns-projects/kyarkwat/6GqDBt4ZafrFxQn64Qs3Vtg8Xms4.
+- Deployment: `dpl_HingzbXpbcDqM8oSGRapp3LNqEmX`, state `READY`, production.
+- Inspector: https://vercel.com/sann-lynn-htuns-projects/kyarkwat/HingzbXpbcDqM8oSGRapp3LNqEmX.
 - Anonymous HTTP verification returned the game with status 200; the native WASM runtime returned 200 with `application/wasm`. No Vercel login is required on the production alias.
 - The initial production release passed all 1,100 browser assertions/eight complete games. The mobile update passed the same 1,100 regression assertions locally; current touch-specific production verification is recorded below.
 - This is a local CLI deployment; no Git integration or automatic redeploy was configured.
@@ -154,6 +154,10 @@ Not tested on physical phones or with a screen reader. Real-device performance c
 
 `specs/001-kyarkwat/` contains the implementation documents; `design/` retains the approved prototype for reference.
 
-Rule reference: https://harryheinthant.site/checker. The supplied cheese-themed Downloads folder was reviewed for flow, with no code/assets copied into the app. The SVG mark and CSS counters are original to the approved design.
+Rule reference: https://harryheinthant.site/checker. The supplied cheese-themed Downloads folder was reviewed for flow, with no code/assets copied into the app. The original Jump K counter mark and generated sizes are documented in [BRANDING.md](BRANDING.md); CSS playing counters retain their existing styling.
 
 Inter and Noto Sans Myanmar are bundled locally under SIL Open Font Licenses in `wwwroot/fonts/`. Sources: [Google Fonts Inter](https://github.com/google/fonts/tree/main/ofl/inter) and [Noto Sans Myanmar](https://github.com/google/fonts/tree/main/ofl/notosansmyanmar). The production app makes no external font requests.
+
+## Branding follow-up
+
+The current release uses the Jump K counter across header/loading, adaptive favicon, app icons, manifest and social metadata. See [BRANDING.md](BRANDING.md) for the single SVG master, regeneration, all output sizes, 60 local/live asset checks and remaining limitations. Existing 100 C# / 1,100 browser / 342 touch checks passed on the branded local build.

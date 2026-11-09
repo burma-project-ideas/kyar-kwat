@@ -27,7 +27,7 @@ No redraws. Explicit composition adaptation: omit the dealt Ruled T-frame sideba
 
 Subject inventory: Burmese name; 8×8 geometry; 12 counters per side; green first; compulsory capture; longest capture chains; stacked king counters; forward moves; opposite win objectives; feeding pieces; three computer levels; shared-device play.
 
-Signature: the board's two-ring counter silhouette, Burmese `က` king mark, and the selected mode's exact winning objective. The four-square/counter wordmark is inline SVG. No stock imagery is needed.
+Signature: the board's two-ring counter silhouette, Burmese `က` king mark, and the selected mode's exact winning objective. The initial four-square wordmark has been replaced by the shared Jump K counter from `../BlazorWasm.KyarKwat/wwwroot/branding/`; the prototype uses the same asset as the app. No stock imagery is needed.
 
 ## Screen questions and flow
 
