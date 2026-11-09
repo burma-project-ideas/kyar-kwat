@@ -115,7 +115,7 @@ Favicon 16/32/48၊ Apple Icon 180၊ App Icons 192/512၊ Maskable Icon နဲ�
 
 GitHub Actions ရဲ့ **CI and Vercel** workflow က `main` push၊ pull request နဲ့ manual run တွေမှာ .NET SDK ကို `global.json` အတိုင်း သုံးပြီး game-rule/AI checks နဲ့ WASM publish ကို စစ်ပါတယ်။ ရှိပြီးသား Vercel Git integration က deployment ကို တာဝန်ယူပြီး production publish မတိုင်မီ တူညီတဲ့ game checks ကို run ပါတယ်။ GitHub Actions build ပြီးမှ Vercel build စတာ မဟုတ်ဘဲ နှစ်ခုက သီးခြား run ပါတယ်။
 
-Vercel က production deployment အောင်မြင်ကြောင်း GitHub ကို အသိပေးတဲ့အခါ workflow က live page၊ Blazor runtime နဲ့ Tiger preview image ကို HTTP checks ပြန်လုပ်ပါတယ်။ Vercel token secret သီးသန့်ထည့်ဖို့ မလိုပါဘူး။ [Workflow](.github/workflows/ci.yml) · [Actions runs](https://github.com/burma-project-ideas/kyar-kwat/actions)
+`main` ရဲ့ CI အောင်မြင်ပြီးရင် workflow က live `deployment.json` ထဲက commit SHA ကို GitHub run ရဲ့ SHA နဲ့ တူတဲ့အထိ စောင့်ပြီးမှ live page၊ Blazor runtime နဲ့ Tiger preview image ကို HTTP checks ပြန်လုပ်ပါတယ်။ PR တွေမှာ production smoke check မလုပ်ပါဘူး။ Vercel token secret သီးသန့်ထည့်ဖို့ မလိုပါဘူး။ [Workflow](.github/workflows/ci.yml) · [Actions runs](https://github.com/burma-project-ideas/kyar-kwat/actions)
 
 ## ပံ့ပိုးသူများနှင့် Credits
 

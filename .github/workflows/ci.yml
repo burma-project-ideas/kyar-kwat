@@ -6,7 +6,6 @@ on:
   pull_request:
     branches: [main]
   workflow_dispatch:
-  deployment_status:
 
 permissions:
   contents: read
@@ -18,7 +17,6 @@ concurrency:
 jobs:
   verify:
     name: Build and game checks
-    if: github.event_name != 'deployment_status'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
@@ -44,13 +42,24 @@ jobs:
 
   production-smoke:
     name: Check Vercel production
-    if: >-
-      github.event_name == 'deployment_status' &&
-      github.event.deployment_status.state == 'success' &&
-      github.event.deployment.production_environment == true
+    needs: verify
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 10
     steps:
+      - name: Wait for this commit on Vercel
+        run: |
+          for attempt in {1..30}; do
+            deployed_commit="$(curl --fail --silent --max-time 5 \
+              https://kyarkwat.vercel.app/deployment.json | jq -r '.commit // empty')" || deployed_commit=""
+            if [[ "$deployed_commit" == "$GITHUB_SHA" ]]; then
+              echo "Vercel is serving commit $GITHUB_SHA"
+              exit 0
+            fi
+            sleep 5
+          done
+          echo "Vercel did not serve commit $GITHUB_SHA within the wait window."
+          exit 1
       - name: Check live page, runtime and sharing image
         run: |
           curl --fail --silent --show-error --location --retry 3 --max-time 30 \

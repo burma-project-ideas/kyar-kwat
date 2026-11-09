@@ -6,7 +6,7 @@
   "outputDirectory": "artifacts/vercel-publish/wwwroot",
   "routes": [
     {
-      "src": "^/(?:index\\.html|branding/social-card-tiger\\.jpg)?$",
+      "src": "^/(?:index\\.html|deployment\\.json|branding/social-card-tiger\\.jpg)?$",
       "headers": {
         "Cache-Control": "no-store, max-age=0",
         "CDN-Cache-Control": "no-store",

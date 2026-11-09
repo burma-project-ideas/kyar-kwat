@@ -12,3 +12,5 @@ bash .vercel/cache/dotnet-install.sh --jsonfile global.json --install-dir "$DOTN
 dotnet run --project tests/KyarKwat.Checks -c Release
 dotnet publish BlazorWasm.KyarKwat -c Release -o artifacts/vercel-publish
 test -f artifacts/vercel-publish/wwwroot/_framework/blazor.webassembly.js
+[[ "${VERCEL_GIT_COMMIT_SHA:-}" =~ ^[0-9a-f]{40}$ ]]
+printf '{"commit":"%s"}\n' "$VERCEL_GIT_COMMIT_SHA" > artifacts/vercel-publish/wwwroot/deployment.json
