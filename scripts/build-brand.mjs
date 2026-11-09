@@ -107,5 +107,7 @@ entries.forEach((png, index) => {
   ico.writeUInt32LE(png.length, start + 8); ico.writeUInt32LE(offset, start + 12);
   offset += png.length;
 });
-writeFileSync(join(brand, 'favicon.ico'), Buffer.concat([ico, ...entries]));
+const favicon = Buffer.concat([ico, ...entries]);
+writeFileSync(join(brand, 'favicon.ico'), favicon);
+writeFileSync(join(brand, '../favicon.ico'), favicon);
 console.log(`Generated ${Object.keys(output).length} checked PNGs, SVG variants and multi-size ICO from logo-master.svg.`);

@@ -53,3 +53,5 @@ The logo and geometry are authored directly in SVG because this repository alrea
 Desktop/mobile screenshots are in `docs/images/`. Generated check evidence remains under ignored `.taste-skill/branding/` and `.taste-skill/brand-layout/`.
 
 Not checked on physical iOS/Android devices or by installing home-screen icons. Actual social-network cache/preview refresh is not tested. The manifest supplies icon/display metadata; no offline service worker or new app theme was added.
+
+The root /favicon.ico mirrors the generated multi-size icon for browsers and clients that request the conventional URL. Sharing metadata declares the PNG preview MIME type and application name.
