@@ -77,3 +77,19 @@ Production deployment `dpl_9QjNBDHM1UAEKfooHdnByY8QAJWs` is READY. The JPEG retu
 After deployment the user sent the exact root URL to Webpage Bot again. At **00:19 Myanmar time**, Telegram reported a successful refresh, but the actual returned message was still a plain root link, with no photo/title/description in its accessibility tree. **The JPEG retry did not fix the root preview.** Screenshot capture remains unavailable. No game logic or security settings were changed. The README now gives only the requested clean root URL instead of recommending a query-parameter workaround.
 
 The remaining root-specific preview state cannot be invalidated through an exposed website setting or a verified Telegram operation available in this session. Further investigation needs Telegram's preview backend/support; changing more metadata without evidence would not establish a fix. [Telegram's own guidance](https://bugs.telegram.org/c/57/4) directs persistent preview problems to in-app support after a Webpage Bot refresh.
+
+## Vercel settings and cache-header audit — 2026-11-10
+
+Read-only project inspection confirmed the expected project ID/name, no password protection, and no active/draft custom firewall configuration or rule versions. The project has SSO protection configured as `all_except_custom_domains`; public production-root and image requests with no authentication succeed with HTTP 200. This setting was not weakened, and no protection-bypass secret was created.
+
+Before the change, root HTML and JPEG responses used `Cache-Control: public, must-revalidate, max-age=0`, with `X-Vercel-Cache: HIT` and `Age: 273`. These are observations, not evidence that Vercel served stale metadata. The deploy script previously emitted only the minimum version-3 output config, with no custom cache rules.
+
+The generated Build Output API config now applies `Cache-Control: no-store, max-age=0`, `CDN-Cache-Control: no-store`, and `Vercel-CDN-Cache-Control: no-store` specifically to `/`, `/index.html` and `/branding/social-card-tiger.jpg`. Matching continues to filesystem routing. A build self-check verified coverage of those paths and excluded the Blazor runtime from the rule. The shared URL, canonical URL, image content and game rules are unchanged.
+
+Deployment `dpl_4CWkybXoDziGwu68tSbbCEvqmrrP` is READY. `vercel cache purge --type cdn --yes` succeeded for the existing project. Two consecutive anonymous Telegram-user-agent requests to each target returned HTTP 200 and the new client/CDN no-store headers. The first request reported `MISS`, the second `HIT`, both with `Age: 0`. Vercel still reports an internal static-file hit; the no-store header must not be described as proof of zero internal edge caching. The Vercel-specific cache header is consumed by the platform and is not expected in public responses.
+
+During the post-purge Telegram inspection, Webpage Bot's latest returned root-link message at **00:25 Myanmar time** was still plain text with no photo/title/description. **The Vercel cache-policy change and purge have not established a working root preview.** Telegram's success reply is not counted as preview success. The site-facing checks are independent of Telegram's own cached preview state.
+
+References: [Vercel cache headers](https://vercel.com/docs/caching/cache-control-headers), [Build Output routes](https://vercel.com/docs/build-output-api/configuration), and [CDN cache purge](https://vercel.com/docs/cli/cache).
+
+Verification: 78 production branding assertions passed, including the new HTML/JPEG cache-header assertions and desktop/mobile game startup checks. Anonymous root HEAD returned 200 without changing the URL; Facebook-user-agent GET received the JPEG metadata and unchanged root canonical. Gameplay regression suites were not rerun for this deployment-config-only change.
