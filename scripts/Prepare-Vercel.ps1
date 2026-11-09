@@ -4,6 +4,13 @@ $publish = Join-Path $projectRoot 'artifacts/publish'
 $source = Join-Path $publish 'wwwroot'
 $output = Join-Path $projectRoot '.vercel/output'
 
+if (Test-Path -LiteralPath $publish) {
+    $resolvedPublish = (Resolve-Path -LiteralPath $publish).Path
+    if (-not $resolvedPublish.StartsWith($projectRoot + [IO.Path]::DirectorySeparatorChar, [StringComparison]::OrdinalIgnoreCase)) {
+        throw 'Refusing to clean publish output outside the project.'
+    }
+    Remove-Item -LiteralPath $resolvedPublish -Recurse -Force
+}
 dotnet publish (Join-Path $projectRoot 'BlazorWasm.KyarKwat') -c Release -o $publish
 if ($LASTEXITCODE -ne 0) { throw 'The Blazor publish failed.' }
 
