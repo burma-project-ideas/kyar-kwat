@@ -154,10 +154,10 @@ Not tested on physical phones or with a screen reader. Real-device performance c
 
 `specs/001-kyarkwat/` contains the implementation documents; `design/` retains the approved prototype for reference.
 
-Rule reference: https://harryheinthant.site/checker. The supplied cheese-themed Downloads folder was reviewed for flow, with no code/assets copied into the app. The original Jump K counter mark and generated sizes are documented in [BRANDING.md](BRANDING.md); CSS playing counters retain their existing styling.
+Rule reference: https://harryheinthant.site/checker. The supplied cheese-themed Downloads folder was reviewed for flow, with no code/assets copied into the app. The original Tiger + Doe Pyar counter mark and generated sizes are documented in [BRANDING.md](BRANDING.md); CSS playing counters retain their existing styling.
 
 Inter and Noto Sans Myanmar are bundled locally under SIL Open Font Licenses in `wwwroot/fonts/`. Sources: [Google Fonts Inter](https://github.com/google/fonts/tree/main/ofl/inter) and [Noto Sans Myanmar](https://github.com/google/fonts/tree/main/ofl/notosansmyanmar). The production app makes no external font requests.
 
 ## Branding follow-up
 
-The current release uses the Jump K counter across header/loading, adaptive favicon, app icons, manifest and social metadata. See [BRANDING.md](BRANDING.md) for the single SVG master, regeneration, all output sizes, 60 local/live asset checks and remaining limitations. Existing 100 C# / 1,100 browser / 342 touch checks passed on the branded local build.
+The current release uses the Tiger + Doe Pyar counter across header/loading, adaptive favicon, app icons, manifest and social metadata. See [BRANDING.md](BRANDING.md) for the single SVG master, regeneration, all output sizes, 70 branding checks and remaining limitations. The earlier 100 C# / 1,100 browser / 342 touch checks passed before this asset-only redesign; gameplay code is unchanged.

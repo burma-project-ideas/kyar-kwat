@@ -1,4 +1,4 @@
-<p><a href="https://kyarkwat.vercel.app/"><img src="BlazorWasm.KyarKwat/wwwroot/branding/icon-192.png" width="72" height="72" alt="KyarKwat Jump K counter logo" /></a></p>
+<p><a href="https://kyarkwat.vercel.app/"><img src="BlazorWasm.KyarKwat/wwwroot/branding/icon-192.png" width="72" height="72" alt="KyarKwat Tiger + Doe Pyar counter logo" /></a></p>
 
 # Kyar Kwat — မြန်မာ့ရိုးရာ ကျားကွက်
 
@@ -101,9 +101,9 @@ Board State → Legal Routes → Apply Turn → Result → Computer Search ဆ�
 
 ## Logo နဲ့ Brand Assets
 
-Logo အသစ်က ကျားအဝိုင်းထဲမှာ **K ပုံစံကို Transparent Cutout** အဖြစ် ရေးထားတဲ့ **Jump K counter** ပါ။ လက်ရှိ App ရဲ့ Mint Green / Black Palette နဲ့ လိုက်ဖက်ပြီး Light Surface အတွက် အစိမ်းရင့် Variant ပါရှိပါတယ်။
+Logo အသစ်က ဒိုးပြားအဝိုင်းထဲမှာ **ကျားမျက်နှာနဲ့ အစင်းတွေကို Transparent Cutout** အဖြစ် ရေးထားတဲ့ **Tiger + Doe Pyar counter** ပါ။ လက်ရှိ App ရဲ့ Mint Green / Black Palette နဲ့ လိုက်ဖက်ပြီး Light Surface အတွက် အစိမ်းရင့် Variant ပါရှိပါတယ်။
 
-![Jump K counter on light and dark surfaces](docs/images/brand-preview.png)
+![Tiger + Doe Pyar counter on light and dark surfaces](docs/images/brand-preview.png)
 
 [Transparent SVG Master](BlazorWasm.KyarKwat/wwwroot/branding/logo-master.svg) · [Transparent PNG](BlazorWasm.KyarKwat/wwwroot/branding/logo-dark.png) · [Assets နဲ့ အသုံးပြုပုံ](docs/BRANDING.md)
 
