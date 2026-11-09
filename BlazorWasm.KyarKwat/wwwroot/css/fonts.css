@@ -1,0 +1,15 @@
+/* SIL Open Font License; source and licenses are in ../fonts/. */
+@font-face {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('../fonts/Inter.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Noto Sans Myanmar';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('../fonts/NotoSansMyanmar.ttf') format('truetype');
+}
