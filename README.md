@@ -8,6 +8,8 @@
 
 **[ဂိမ်းကို ဖွင့်ကစားရန်](https://kyarkwat.vercel.app/)** · [Mobile screenshot](docs/images/mobile.jpg) · [Development / Verification မှတ်တမ်း](docs/DEVELOPMENT.md)
 
+Telegram မှာ ပုံပါ Preview နဲ့ မျှဝေရန် [ဒီ Share Link](https://kyarkwat.vercel.app/?preview=tiger-20261110) ကို ကူးသုံးပါ။ Root URL က plain link ပဲဖြစ်နေချိန်မှာ ဒီ URL က Webpage Bot မှာ 1200×630 photo၊ title နဲ့ description ပါတဲ့ preview ရကြောင်း စစ်ထားပါတယ်။ [စစ်ဆေးမှုအသေးစိတ်](docs/BRANDING.md#actual-platform-recheck--2026-11-10)
+
 [![Kyar Kwat desktop board, player counts and turn information](docs/images/desktop.jpg)](https://kyarkwat.vercel.app/)
 
 ## ကစားနည်းနှစ်မျိုး

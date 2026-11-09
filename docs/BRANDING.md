@@ -42,7 +42,7 @@ node tests/brand-checks.mjs "PATH_TO_DESIGN_SKILL" https://kyarkwat.vercel.app
 
 Browser screenshots are saved under ignored `.taste-skill/branding/`; README desktop/mobile screenshots are refreshed from the checked build. These automated user-agent requests test delivery, not either platform's preview renderer.
 
-Actual Facebook Sharing Debugger navigation was attempted in the user's Chrome and the in-app browser. Navigation/capture timed out and no preview was obtained. Telegram Desktop was available, but its input reported unavailable coordinate geometry and window capture timed out; no URL was sent or preview observed. These are verification blockers, not proof of a site or platform defect.
+On 2026-11-09, actual Facebook Sharing Debugger navigation was attempted in the user's Chrome and the in-app browser. Navigation/capture timed out and no preview was obtained. Telegram Desktop input reported unavailable coordinate geometry and window capture timed out; no preview was observed during that inspection. The platform recheck below supersedes that Telegram limitation.
 
 For a manual platform recheck, use [Facebook Sharing Debugger](https://developers.facebook.com/tools/debug/?q=https%3A%2F%2Fkyarkwat.vercel.app%2F), then **Scrape Again**. For Telegram, [its official preview-update guidance](https://bugs.telegram.org/c/57/4) describes submitting the public URL to [@WebpageBot](https://t.me/WebpageBot). Verify the returned image visually; a cache-refresh success message alone does not prove rendering.
 
@@ -51,3 +51,18 @@ Physical iOS/Android devices and installed home-screen icons are not checked. Th
 Production: [kyarkwat.vercel.app](https://kyarkwat.vercel.app/), deployment dpl_RaN2Dq794mqDy9HQEDkUfwHUAbqi (READY). The live share image SHA-256 matches the locally generated Tiger + Doe Pyar export.
 
 Results: 70 brand assertions passed locally and on production. Generated preview pixels were inspected on light/dark surfaces; the live preview matches the local export byte for byte. Build and static-file hash verification passed. Gameplay regression suites were not rerun for this asset-only change.
+
+## Actual platform recheck — 2026-11-10
+
+With the user's help opening Telegram Desktop's **Webpage Bot** chat and sending the prepared test URL, its actual returned message was inspected through the accessibility tree:
+
+| URL | Actual bot result |
+|---|---|
+| `https://kyarkwat.vercel.app/` | Plain URL, even after the bot reported a successful update at 00:10 Myanmar time |
+| `https://kyarkwat.vercel.app/?preview=tiger-20261110` | Photo, **1200×630**; website **KyarKwat**; title **KyarKwat — ကျားနိုင် / ကျားကုန်**; Burmese description, returned at 00:10 Myanmar time |
+
+Use [the verified query URL](https://kyarkwat.vercel.app/?preview=tiger-20261110) when sharing on Telegram. It opens the same game. The root-specific failure with a successful fresh query strongly suggests stale URL state in Telegram; it is an inference, not a confirmed internal cache diagnosis. Similar root/query behavior is reported on [Telegram's issue tracker](https://bugs.telegram.org/c/61650/31). A Webpage Bot success message alone did not repair the exact root URL.
+
+The live page still declares the Tiger + Doe Pyar PNG in static Open Graph/Twitter metadata. That PNG returns HTTP 200, `image/png`, 54,349 bytes. Vercel's read-only firewall configuration returned `active: null`, `draft: null`, and no custom versions; no firewall settings were changed. This does not establish whether platform-wide filtering ever occurred.
+
+Photo presence, dimensions and text were confirmed from the actual Telegram message. Screenshot capture still timed out, so its rendered logo pixels were not independently inspected. Facebook Sharing Debugger and Facebook's share dialog both returned browser `ERR_CONNECTION_TIMED_OUT`; their actual preview remains unverified. No metadata or image defect was established by these results, so the working metadata/image assets are unchanged.
