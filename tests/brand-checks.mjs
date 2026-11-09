@@ -16,7 +16,8 @@ const png = async (path, width, height) => {
   check(b.subarray(1, 4).toString() === 'PNG', `${path} PNG signature`);
   check(b.readUInt32BE(16) === width && b.readUInt32BE(20) === height, `${path} dimensions`);
 };
-const html = await (await get('/')).text();
+const homepage = await get('/');
+const html = await homepage.text();
 check(!html.includes('href="data:,"'), 'no empty favicon');
 check(html.includes('branding/site.webmanifest') && html.includes('branding/apple-touch-icon.png'), 'home screen links');
 check(html.includes('og:image') && html.includes('twitter:image') && html.includes('https://kyarkwat.vercel.app/branding/social-card-tiger.jpg'), 'absolute sharing metadata');
@@ -42,6 +43,12 @@ await png('/branding/social-card-tiger.png', 1200, 630);
 check((await get('/branding/social-card-tiger.png')).headers.get('content-type')?.includes('image/png'), 'preview image MIME type');
 const jpeg = await get('/branding/social-card-tiger.jpg');
 check(jpeg.headers.get('content-type')?.includes('image/jpeg'), 'JPEG preview MIME type');
+if (homepage.headers.get('server')?.toLowerCase() === 'vercel') {
+  check(homepage.headers.get('cache-control')?.includes('no-store'), 'production HTML does not store client cache');
+  check(homepage.headers.get('cdn-cache-control') === 'no-store', 'production HTML CDN cache directive');
+  check(jpeg.headers.get('cache-control')?.includes('no-store'), 'production preview does not store client cache');
+  check(jpeg.headers.get('cdn-cache-control') === 'no-store', 'production preview CDN cache directive');
+}
 const jpegBytes = Buffer.from(await jpeg.arrayBuffer());
 check(jpegBytes.readUInt16BE(0) === 0xffd8 && jpegBytes.readUInt16BE(jpegBytes.length - 2) === 0xffd9, 'valid JPEG preview export');
 const ico = Buffer.from(await (await get('/branding/favicon.ico')).arrayBuffer());

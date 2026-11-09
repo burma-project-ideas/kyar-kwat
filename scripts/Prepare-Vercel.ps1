@@ -23,7 +23,20 @@ if (Test-Path -LiteralPath $output) {
 }
 New-Item -ItemType Directory -Path $output -Force | Out-Null
 Copy-Item -LiteralPath $source -Destination (Join-Path $output 'static') -Recurse
-Set-Content -LiteralPath (Join-Path $output 'config.json') -Value '{"version":3}' -Encoding utf8
+$previewHeaders = @{
+    'Cache-Control' = 'no-store, max-age=0'
+    'CDN-Cache-Control' = 'no-store'
+    'Vercel-CDN-Cache-Control' = 'no-store'
+}
+$config = @{
+    version = 3
+    routes = @(
+        @{ src = '^/(?:index\.html)?$'; headers = $previewHeaders; continue = $true }
+        @{ src = '^/branding/social-card-tiger\.jpg$'; headers = $previewHeaders; continue = $true }
+        @{ handle = 'filesystem' }
+    )
+}
+$config | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath (Join-Path $output 'config.json') -Encoding utf8
 
 $files = @(Get-ChildItem -LiteralPath $source -Recurse -File)
 foreach ($file in $files) {
