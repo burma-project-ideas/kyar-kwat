@@ -111,6 +111,12 @@ Logo အသစ်က ဒိုးပြားအဝိုင်းထဲမှ�
 
 Favicon 16/32/48၊ Apple Icon 180၊ App Icons 192/512၊ Maskable Icon နဲ့ Social Card 1200×630 တို့ကို Master တစ်ခုတည်းကနေ ထုတ်ထားပါတယ်။ Node 22+ နဲ့ Chrome/Edge ရှိရင် `node scripts/build-brand.mjs` နဲ့ ပြန်ထုတ်နိုင်ပါတယ်။ App က Dark Theme ဖြစ်ပြီး Logo Variant တွေကို Light/Dark Surface နှစ်မျိုးလုံးမှာ စစ်ထားပါတယ်။
 
+## CI/CD
+
+GitHub Actions ရဲ့ **CI and Vercel** workflow က `main` push၊ pull request နဲ့ manual run တွေမှာ .NET SDK ကို `global.json` အတိုင်း သုံးပြီး game-rule/AI checks နဲ့ WASM publish ကို စစ်ပါတယ်။ ရှိပြီးသား Vercel Git integration က deployment ကို တာဝန်ယူပြီး production publish မတိုင်မီ တူညီတဲ့ game checks ကို run ပါတယ်။ GitHub Actions build ပြီးမှ Vercel build စတာ မဟုတ်ဘဲ နှစ်ခုက သီးခြား run ပါတယ်။
+
+Vercel က production deployment အောင်မြင်ကြောင်း GitHub ကို အသိပေးတဲ့အခါ workflow က live page၊ Blazor runtime နဲ့ Tiger preview image ကို HTTP checks ပြန်လုပ်ပါတယ်။ Vercel token secret သီးသန့်ထည့်ဖို့ မလိုပါဘူး။ [Workflow](.github/workflows/ci.yml) · [Actions runs](https://github.com/burma-project-ideas/kyar-kwat/actions)
+
 ## ပံ့ပိုးသူများနှင့် Credits
 
 - App / Git Contributor: [Sann Lynn Htun](https://github.com/sannlynnhtun-coding)။ Project Collection: [Burma Project Ideas](https://github.com/burma-project-ideas)။
