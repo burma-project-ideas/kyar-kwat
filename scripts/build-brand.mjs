@@ -47,7 +47,7 @@ const html = `<!doctype html><meta charset="utf-8"><style>
     ctx.drawImage(await image(svg),inset,inset,size*scale,size*scale);
     if(!background){
       if(ctx.getImageData(0,0,1,1).data[3]!==0)throw new Error('Master corner must be transparent');
-      if(ctx.getImageData(Math.round(size*34/96),Math.round(size*48/96),1,1).data[3]!==0)throw new Error('K must be a transparent cutout');
+      if(ctx.getImageData(Math.round(size*48/96),Math.round(size*25/96),1,1).data[3]!==0)throw new Error('Tiger forehead stripe must be transparent');
     }
     output[name]=c.toDataURL('image/png').split(',')[1];
   }
@@ -61,6 +61,7 @@ const html = `<!doctype html><meta charset="utf-8"><style>
   ctx.font='400 34px Myanmar';ctx.fillText('မြန်မာ့ရိုးရာ ကျားကွက်',300,354);
   ctx.fillStyle='#b4b4b4';ctx.font='400 28px Myanmar';ctx.fillText('ကျားနိုင် / ကျားကုန်',300,424);
   output['social-card.png']=social.toDataURL('image/png').split(',')[1];
+  output['social-card-tiger.png']=output['social-card.png'];
   const preview=canvas(960,480),p=preview.getContext('2d');
   p.fillStyle='#fff';p.fillRect(0,0,480,480);p.fillStyle='#000';p.fillRect(480,0,480,480);
   p.drawImage(ink,112,64,256,256);p.drawImage(mark,592,64,256,256);
@@ -89,6 +90,7 @@ const output = JSON.parse(match[1]);
 assert(!output.error, output.error);
 const dimensions = new Map(assets.map(([name, size]) => [name, [size, size]]));
 dimensions.set('social-card.png', [1200, 630]);
+dimensions.set('social-card-tiger.png', [1200, 630]);
 dimensions.set('brand-preview.png', [960, 480]);
 for (const [name, data] of Object.entries(output)) {
   const bytes = Buffer.from(data, 'base64');
