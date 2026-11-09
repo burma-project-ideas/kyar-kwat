@@ -93,3 +93,24 @@ During the post-purge Telegram inspection, Webpage Bot's latest returned root-li
 References: [Vercel cache headers](https://vercel.com/docs/caching/cache-control-headers), [Build Output routes](https://vercel.com/docs/build-output-api/configuration), and [CDN cache purge](https://vercel.com/docs/cli/cache).
 
 Verification: 78 production branding assertions passed, including the new HTML/JPEG cache-header assertions and desktop/mobile game startup checks. Anonymous root HEAD returned 200 without changing the URL; Facebook-user-agent GET received the JPEG metadata and unchanged root canonical. Gameplay regression suites were not rerun for this deployment-config-only change.
+
+## Correlated Vercel request-log capture — 2026-11-10
+
+Historical request-log access was recovered using Vercel CLI's actual `/api/logs/request-logs` endpoint. The session transport had previously double-prefixed `/api` for the high-level logs command, producing 404; using the correctly prefixed endpoint returned valid log responses. The uninstrumented static deployment initially had no retained request rows, including no positive-control rows, so absence there was not treated as evidence about Telegram.
+
+A temporary, dependency-free pass-through routing observer was deployed as `dpl_BhmRZtf7nNAQeEtNFCsqCiXeui8Q`. It matched only `/` and `/branding/social-card-tiger.jpg`, logging pathname, method and user-agent into Vercel runtime logs while continuing to the existing static files. It logged no cookies, authorization headers, message contents or query strings. It existed only in ignored build output, not in application source.
+
+The user sent the unchanged root URL to Webpage Bot at **00:37 Myanmar time**. The bot reported refresh success and returned a plain root link, with no photo/title/description. The captured request-log window was **00:34:02–00:39:38 Myanmar time** (2026-11-09 18:04:02–18:09:38 UTC). The final response had `hasMoreRows: false` and five observer events:
+
+| Myanmar time | Path | User-agent classification | Final logged status |
+|---|---|---|---|
+| 00:34:02, twice | `/` | HeadlessChrome probes | 200 |
+| 00:34:06 | `/` | Explicit `KyarKwatPreviewControl/20261110` control | 200 |
+| 00:34:06 | `/branding/social-card-tiger.jpg` | Same explicit control | 200 |
+| 00:38:59 | `/` | Explicit `KyarKwatPreviewControl/PostBot` control, after the bot reply | 200 |
+
+**No captured event identified itself as Telegram or WebpageBot**, and the observer was demonstrably recording requests both before and after the bot refresh. Therefore the capture does not provide a Telegram HTTP response/status to report; the controls' 200 statuses must not be attributed to Telegram. This supports a root-specific preview-state/crawler issue but does not prove its internal cause. Requests rejected upstream of middleware, requests using an unexpected identity, and Telegram's internal cache are outside this observer's visibility. No further metadata, URL, security or cache changes were justified by these logs.
+
+Raw API responses and the sanitized summary remain in ignored `artifacts/observer-request-logs.json` and `artifacts/preview-log-summary.json`. No paid observability feature was enabled; the existing team is on Hobby.
+
+The observer was then removed by regenerating the normal publish output and redeploying as **dpl_2fbbvW9BbdPmaaqqypJWpkxzXX38** (READY). Assertions confirmed no middleware route/function in output, HTTP 200 and no-store headers for the unchanged root/JPEG, and HTTP 404 for the temporary observer endpoint. The root Telegram preview is still unresolved; this capture is diagnostic evidence, not a successful fix.
