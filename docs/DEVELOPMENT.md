@@ -161,3 +161,11 @@ Inter and Noto Sans Myanmar are bundled locally under SIL Open Font Licenses in 
 ## Branding follow-up
 
 The current release uses the Tiger + Doe Pyar counter across header/loading, adaptive favicon, app icons, manifest and social metadata. See [BRANDING.md](BRANDING.md) for the single SVG master, regeneration, all output sizes, 70 branding checks and remaining limitations. The earlier 100 C# / 1,100 browser / 342 touch checks passed before this asset-only redesign; gameplay code is unchanged.
+
+## Git-connected Vercel deployment — 2026-11-10
+
+The existing Vercel `kyarkwat` project is connected to `burma-project-ideas/kyar-kwat`, using `main` for production. Pushes use the checked-in `vercel.json`: no npm install step, `bash scripts/vercel-build.sh` as the build command, and `artifacts/vercel-publish/wwwroot` as the static output.
+
+The build script downloads Microsoft's official .NET installer, installs the SDK selected by `global.json` into Vercel's build cache, and publishes the standalone WASM app. It fails if publishing fails or the Blazor bootstrap asset is missing. There is no .NET server at runtime and no Vercel token or deployment secret is committed to the repository.
+
+The same `vercel.json` routes supply root/preview no-store headers for both Git builds and the manual `scripts/Prepare-Vercel.ps1` fallback. The live address remains https://kyarkwat.vercel.app/.
