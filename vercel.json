@@ -1,0 +1,19 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "installCommand": "",
+  "buildCommand": "bash scripts/vercel-build.sh",
+  "outputDirectory": "artifacts/vercel-publish/wwwroot",
+  "routes": [
+    {
+      "src": "^/(?:index\\.html|branding/social-card-tiger\\.jpg)?$",
+      "headers": {
+        "Cache-Control": "no-store, max-age=0",
+        "CDN-Cache-Control": "no-store",
+        "Vercel-CDN-Cache-Control": "no-store"
+      },
+      "continue": true
+    },
+    { "handle": "filesystem" }
+  ]
+}
