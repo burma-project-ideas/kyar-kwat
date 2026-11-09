@@ -19,9 +19,13 @@ const png = async (path, width, height) => {
 const html = await (await get('/')).text();
 check(!html.includes('href="data:,"'), 'no empty favicon');
 check(html.includes('branding/site.webmanifest') && html.includes('branding/apple-touch-icon.png'), 'home screen links');
-check(html.includes('og:image') && html.includes('twitter:image') && html.includes('https://kyarkwat.vercel.app/branding/social-card.png'), 'absolute sharing metadata');
+check(html.includes('og:image') && html.includes('twitter:image') && html.includes('https://kyarkwat.vercel.app/branding/social-card-tiger.png'), 'absolute sharing metadata');
 check(html.includes('rel="canonical"') && html.includes('name="description"'), 'canonical and description');
 check(html.includes('property="og:image:type" content="image/png"') && html.includes('name="application-name" content="KyarKwat"'), 'preview MIME type and app identity');
+for (const agent of ['facebookexternalhit/1.1', 'TelegramBot (like TwitterBot)']) {
+  const response = await fetch(base + '/', { headers: { 'User-Agent': agent } });
+  check(response.ok && (await response.text()).includes('https://kyarkwat.vercel.app/branding/social-card-tiger.png'), `${agent} receives static preview metadata`);
+}
 const manifest = await (await get('/branding/site.webmanifest')).json();
 check(manifest.start_url === '/' && manifest.name.includes('KyarKwat'), 'manifest identity');
 check(manifest.icons.length === 3, 'standard and maskable app icons');
@@ -34,6 +38,8 @@ await png('/branding/apple-touch-icon.png', 180, 180);
 await png('/branding/logo-dark.png', 1024, 1024);
 await png('/branding/logo-light.png', 1024, 1024);
 await png('/branding/social-card.png', 1200, 630);
+await png('/branding/social-card-tiger.png', 1200, 630);
+check((await get('/branding/social-card-tiger.png')).headers.get('content-type')?.includes('image/png'), 'preview image MIME type');
 const ico = Buffer.from(await (await get('/branding/favicon.ico')).arrayBuffer());
 check(ico.equals(Buffer.from(await (await get('/favicon.ico')).arrayBuffer())), 'root favicon matches generated icon');
 check(ico.readUInt16LE(2) === 1 && ico.readUInt16LE(4) === 3, 'three-resolution ICO');
